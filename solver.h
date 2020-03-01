@@ -24,11 +24,34 @@ public:
 
     void ba3m();
 
+
+    void ba5c();
+
+    void ba5e();
+
+    void ba5j();
+
+    void ba5m();
+
+
     void ba6a();
 
     void ba6b();
 
     void ba6c();
+
+    void ba6d();
+
+
+    void ba7a();
+
+    void ba7c();
+
+    void ba7d();
+
+    void ba7e();
+
+    void ba7f();
 };
 
 

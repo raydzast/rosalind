@@ -27,9 +27,13 @@ public:
 
     static std::size_t permutation_breakpoints_count(const std::vector<int> &source);
 
-    static std::vector<std::size_t> connection_graph(const std::vector<std::vector<int>> &p);
+    static std::map<std::size_t, std::size_t> connection_graph(const std::vector<std::vector<int>> &p);
 
-    static std::size_t cycles(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q);
+    static std::vector<std::vector<std::size_t>>
+    cycles(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q);
+
+    static std::size_t
+    two_break_distance(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q);
 };
 
 
