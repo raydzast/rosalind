@@ -98,3 +98,30 @@ void solver::ba6b() {
 
     out << rosalind::permutation_breakpoints_count(permutation) << std::endl;
 }
+
+std::vector<std::vector<int>> read_circular(std::istream &in) {
+    std::vector<std::vector<int>> result;
+
+    char c;
+    while (in.peek() != EOF && in.peek() != '\n') {
+        int tmp;
+        in >> c;
+        std::noskipws(in);
+        result.emplace_back();
+        while (c != ')' && in >> tmp >> c) {
+            result.back().push_back(tmp);
+        }
+    }
+    in >> c;
+
+    return result;
+}
+
+void solver::ba6c() {
+    auto P = read_circular(in);
+    auto Q = read_circular(in);
+
+    std::size_t answer = rosalind::cycles(P, P) - rosalind::cycles(P, Q);
+
+    out << answer << std::endl;
+}

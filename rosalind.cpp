@@ -131,3 +131,51 @@ rosalind::permutation_breakpoints_count(const std::vector<int> &source) {
 
     return answer;
 }
+
+std::vector<std::size_t>
+rosalind::connection_graph(const std::vector<std::vector<int>> &p) {
+    std::size_t size = 0;
+    for (auto &cycle : p) {
+        size += cycle.size();
+    }
+
+    std::vector<std::size_t> graph(size * 2);
+
+    for (auto &cycle : p) {
+        int u = (abs(cycle.back()) - 1) * 2 + (0 < cycle.back());
+        int v = (abs(cycle[0]) - 1) * 2 + (cycle[0] < 0);
+        graph[u] = v;
+        graph[v] = u;
+
+        for (int i = 1; i < cycle.size(); i++) {
+            u = (abs(cycle[i - 1]) - 1) * 2 + (0 < cycle[i - 1]);
+            v = (abs(cycle[i]) - 1) * 2 + (cycle[i] < 0);
+            graph[u] = v;
+            graph[v] = u;
+        }
+    }
+
+    return graph;
+}
+
+std::size_t
+rosalind::cycles(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q) {
+    auto cgP = connection_graph(P);
+    auto cgQ = connection_graph(Q);
+
+    std::vector<bool> mark(cgP.size(), false);
+    std::function<void(int)> dfs = [&](int u) {
+        if (mark[u]) return;
+        mark[u] = mark[cgP[u]] = true;
+
+        dfs(cgQ[cgP[u]]);
+    };
+
+    std::size_t answer = 0;
+    for (int i = 0; i < cgP.size(); i++) {
+        answer += !mark[i];
+        dfs(i);
+    }
+
+    return answer;
+}
