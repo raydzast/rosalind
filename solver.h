@@ -25,6 +25,8 @@ public:
     void ba3m();
 
     void ba6a();
+
+    void ba6b();
 };
 
 

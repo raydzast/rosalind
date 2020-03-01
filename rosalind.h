@@ -24,6 +24,8 @@ public:
     static std::vector<std::size_t> eulerian_path(const std::vector<std::multiset<std::size_t>> &graph);
 
     static std::vector<std::vector<int>> greedy_sort_permutation(const std::vector<int> &source);
+
+    static std::size_t permutation_breakpoints_count(const std::vector<int> &source);
 };
 
 

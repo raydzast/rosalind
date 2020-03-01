@@ -85,3 +85,16 @@ void solver::ba6a() {
         out << ')' << std::endl;
     }
 }
+
+void solver::ba6b() {
+    std::noskipws(in);
+    std::vector<int> permutation;
+
+    char ignored;
+    int tmp;
+    while (in >> ignored >> tmp) {
+        permutation.push_back(tmp);
+    }
+
+    out << rosalind::permutation_breakpoints_count(permutation) << std::endl;
+}

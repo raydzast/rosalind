@@ -117,3 +117,17 @@ rosalind::greedy_sort_permutation(const std::vector<int> &source) {
 
     return result;
 }
+
+std::size_t
+rosalind::permutation_breakpoints_count(const std::vector<int> &source) {
+    std::size_t answer = 0;
+
+    std::vector<int> tmp(1, 0);
+    std::copy(source.begin(), source.end(), std::back_inserter(tmp));
+    tmp.push_back(source.size() + 1);
+    for (int i = 1; i < tmp.size(); i++) {
+        answer += tmp[i - 1] + 1 != tmp[i];
+    }
+
+    return answer;
+}
