@@ -66,28 +66,22 @@ void solver::ba3h() {
     out << result << std::endl;
 }
 
-void solver::ba3k() {
-    std::vector<std::string> patterns;
+void solver::ba6a() {
+    std::noskipws(in);
+    std::vector<int> permutation;
 
-    std::string tmp;
-    while (std::getline(in, tmp)) {
-        patterns.push_back(std::move(tmp));
+    char ignored;
+    int tmp;
+    while (in >> ignored >> tmp) {
+        permutation.push_back(tmp);
     }
 
-    auto graph = rosalind::overlap(patterns);
-
-    auto contigs = rosalind::contigs(graph);
-
-    for (auto &path : contigs) {
-        std::string first = patterns[path.front()];
-        std::string result(first.begin(), first.end() - 1);
-
-        for (auto v : path) {
-            result.push_back(patterns[v].back());
+    for (auto &p : rosalind::greedy_sort_permutation(permutation)) {
+        char pre = '(';
+        for (int v : p) {
+            out << pre << std::showpos << v;
+            pre = ' ';
         }
-
-        out << result << " ";
+        out << ')' << std::endl;
     }
-
-    out << std::endl;
 }

@@ -12,7 +12,7 @@ private:
     std::ostream &out;
 
 public:
-    solver(std::istream &in = std::cin, std::ostream &out = std::cout);
+    explicit solver(std::istream &in = std::cin, std::ostream &out = std::cout);
 
     void ba3c();
 
@@ -23,6 +23,8 @@ public:
     void ba3k();
 
     void ba3m();
+
+    void ba6a();
 };
 
 

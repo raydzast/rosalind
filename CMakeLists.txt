@@ -3,5 +3,5 @@ project(rosalind)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(-DNAME=ba3c)
+add_definitions(-DNAME=ba6a)
 add_executable(SOLUTION main.cpp solver.cpp rosalind.cpp)

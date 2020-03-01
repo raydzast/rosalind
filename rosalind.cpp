@@ -59,7 +59,7 @@ rosalind::eulerian_path(const std::vector<std::multiset<std::size_t>> &graph) {
 
     std::size_t start = -1;
     for (auto &v : vs) {
-        if (degree[v] %2 == 1 && !graph_copy[v].empty()) {
+        if (degree[v] % 2 == 1 && !graph_copy[v].empty()) {
             start = v;
         }
     }
@@ -86,4 +86,34 @@ rosalind::eulerian_path(const std::vector<std::multiset<std::size_t>> &graph) {
     std::reverse(path.begin(), path.end());
 
     return path;
+}
+
+std::vector<std::vector<int>>
+rosalind::greedy_sort_permutation(const std::vector<int> &source) {
+    std::vector<std::vector<int>> result;
+    std::vector<int> tmp(source.begin(), source.end());
+
+    int p = 0;
+    while (p < source.size()) {
+        int k = -1;
+        for (int i = p; i < tmp.size(); i++) {
+            if (abs(tmp[i]) == p + 1) {
+                k = i;
+                break;
+            }
+        }
+
+        if (k == -1) {
+            break;
+        }
+
+        std::reverse(tmp.begin() + p, tmp.begin() + k + 1);
+        for (int i = p; i <= k; i++) {
+            tmp[i] = -tmp[i];
+        }
+        result.push_back(tmp);
+        while (tmp[p] == p + 1) p++;
+    }
+
+    return result;
 }
