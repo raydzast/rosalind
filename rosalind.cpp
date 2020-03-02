@@ -186,7 +186,7 @@ rosalind::two_break_distance(const std::vector<std::vector<int>> &P, const std::
 }
 
 std::vector<std::vector<std::size_t>>
-rosalind::max_nonbranching_paths(const std::map<std::size_t, std::set<std::size_t>> &graph) {
+rosalind::max_nonbranching_paths(const std::map<std::size_t, std::multiset<std::size_t>> &graph) {
     std::vector<std::vector<std::size_t>> paths;
 
     std::map<std::size_t, std::size_t> in_degree;

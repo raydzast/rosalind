@@ -36,7 +36,7 @@ public:
     two_break_distance(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q);
 
     static std::vector<std::vector<std::size_t>>
-    max_nonbranching_paths(const std::map<std::size_t, std::set<std::size_t>> &graph);
+    max_nonbranching_paths(const std::map<std::size_t, std::multiset<std::size_t>> &graph);
 };
 
 
