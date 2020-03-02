@@ -66,6 +66,39 @@ void solver::ba3h() {
     out << result << std::endl;
 }
 
+std::map<std::size_t, std::set<std::size_t>> read_graph(std::istream &in) {
+    std::map<std::size_t, std::set<std::size_t>> graph;
+
+    std::size_t v;
+    std::string arrow;
+    while (in >> v >> arrow) {
+        std::size_t w;
+        in >> w;
+        graph[v - 1].insert(w - 1);
+
+        while (in.peek() != '\n' && in.peek() != EOF) {
+            char comma;
+            in >> comma >> w;
+            graph[v - 1].insert(w - 1);
+        }
+    }
+
+    return graph;
+}
+
+void solver::ba3m() {
+    auto graph = read_graph(in);
+    auto paths = rosalind::max_nonbranching_paths(graph);
+
+    for (auto &path : paths) {
+        out << path.front() + 1;
+        for (std::size_t i = 1; i < path.size(); i++) {
+            out << " -> " << path[i] + 1;
+        }
+        out << std::endl;
+    }
+}
+
 
 void solver::ba6a() {
     std::noskipws(in);

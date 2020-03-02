@@ -184,3 +184,52 @@ std::size_t
 rosalind::two_break_distance(const std::vector<std::vector<int>> &P, const std::vector<std::vector<int>> &Q) {
     return cycles(P, P).size() - cycles(P, Q).size();
 }
+
+std::vector<std::vector<std::size_t>>
+rosalind::max_nonbranching_paths(const std::map<std::size_t, std::set<std::size_t>> &graph) {
+    std::vector<std::vector<std::size_t>> paths;
+
+    std::map<std::size_t, std::size_t> in_degree;
+
+    for (const auto &[v, edges] : graph) {
+        for (std::size_t u : edges) {
+            in_degree[u]++;
+        }
+    }
+
+    std::map<std::size_t, bool> used;
+    for (auto &[v, edges] : graph) {
+        if (in_degree[v] != 1 || edges.size() != 1) {
+            if (!edges.empty()) {
+                used[v] = true;
+                for (std::size_t w : edges) {
+                    std::vector<std::size_t> path{v, w};
+                    used[w] = true;
+                    while (in_degree[w] == 1 && graph.count(w) && graph.find(w)->second.size() == 1) {
+                        w = *graph.find(w)->second.begin();
+                        path.push_back(w);
+                        used[w] = true;
+                    }
+                    paths.push_back(std::move(path));
+                }
+            }
+        }
+    }
+
+    for (auto &[v, edges] : graph) {
+        if (used[v]) {
+            continue;
+        }
+        std::size_t w = *edges.begin();
+        paths.push_back({v, w});
+        used[w] = true;
+
+        while (w != v) {
+            w = *graph.find(w)->second.begin();
+            paths.back().push_back(w);
+            used[w] = true;
+        }
+    }
+
+    return paths;
+}
