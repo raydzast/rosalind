@@ -2,6 +2,7 @@
 #define ROSALIND_EASY_SOLVER_H
 
 #include <iostream>
+#include <sstream>
 
 #include "rosalind.h"
 
