@@ -233,3 +233,51 @@ rosalind::max_nonbranching_paths(const std::map<std::size_t, std::multiset<std::
 
     return paths;
 }
+
+std::string rosalind::longest_common_subsequence(const std::string &a, const std::string &b) {
+    std::vector<std::vector<std::size_t>> dp(a.size(), std::vector<std::size_t>(b.size(), 0));
+    if (a[0] == b[0]) dp[0][0] = 1;
+
+    for (int i = 1; i < a.size(); i++) {
+        if (a[i] == b[0]) {
+            dp[i][0] = 1;
+        } else {
+            dp[i][0] = dp[i - 1][0];
+        }
+    }
+
+    for (int i = 1; i < b.size(); i++) {
+        if (a[0] == b[i]) {
+            dp[0][i] = 1;
+        } else {
+            dp[0][i] = dp[0][i - 1];
+        }
+    }
+
+    for (int i = 1; i < a.size(); i++) {
+        for (int j = 1; j < b.size(); j++) {
+            if (a[i] == b[j]) {
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = std::max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+    }
+
+    int pi = a.size() - 1, pj = b.size() - 1;
+    std::string answer;
+
+    while (pi != -1 && pj != -1) {
+        if (a[pi] == b[pj]) {
+            answer.push_back(a[pi]);
+            pi--;
+            pj--;
+        } else {
+            if (pi && dp[pi][pj] == dp[pi - 1][pj]) pi--;
+            else if (pj && dp[pi][pj] == dp[pi][pj - 1]) pj--;
+            else pi = -1;
+        }
+    }
+
+    return std::string(answer.rbegin(), answer.rend());
+}
