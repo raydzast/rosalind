@@ -1,6 +1,7 @@
 #ifndef RECOMBINATION_SOLVER_H
 #define RECOMBINATION_SOLVER_H
 
+#include <functional>
 #include <vector>
 
 #include "abstract_solver.h"

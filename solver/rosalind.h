@@ -2,6 +2,7 @@
 #define ROSALIND_H
 
 #include <algorithm>
+#include <functional>
 #include <map>
 #include <set>
 #include <string>

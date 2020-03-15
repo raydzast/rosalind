@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.10)
 project(rosalind)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(-DNAME=ba7a)
+add_definitions(-DNAME=ba3c)
 
 add_library(rosalind solver/rosalind.cpp)
 add_library(solver
