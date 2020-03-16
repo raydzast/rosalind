@@ -1,5 +1,5 @@
-#ifndef ROSALIND_COMMON_SOLVER_H
-#define ROSALIND_COMMON_SOLVER_H
+#ifndef COMMON_SOLVER_H
+#define COMMON_SOLVER_H
 
 #include <iostream>
 
@@ -16,4 +16,4 @@ public:
 };
 
 
-#endif //ROSALIND_COMMON_SOLVER_H
+#endif //COMMON_SOLVER_H

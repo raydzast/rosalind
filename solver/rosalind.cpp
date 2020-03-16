@@ -1,5 +1,7 @@
 #include "rosalind.h"
 
+#include <iostream>
+
 std::vector<std::multiset<std::size_t>>
 rosalind::overlap(const std::vector<std::string> &patterns) {
     std::vector<std::multiset<std::size_t>> graph(patterns.size());
@@ -259,7 +261,7 @@ std::string rosalind::longest_common_subsequence(const std::string &a, const std
             if (a[i] == b[j]) {
                 dp[i][j] = 1 + dp[i - 1][j - 1];
             } else {
-                dp[i][j] = std::max(dp[i-1][j], dp[i][j-1]);
+                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
     }
@@ -280,4 +282,81 @@ std::string rosalind::longest_common_subsequence(const std::string &a, const std
     }
 
     return std::string(answer.rbegin(), answer.rend());
+}
+
+rosalind::alignment
+rosalind::align_with_affine_gap(const std::string &a, const std::string &b, const int opening_penalty,
+                                const int extending_penalty, std::map<char, std::map<char, int> > scoring) {
+    std::vector<std::vector<int64_t>> M(a.size() + 1, std::vector<int64_t>(b.size() + 1));
+    std::vector<std::vector<int64_t>> A(a.size() + 1, std::vector<int64_t>(b.size() + 1));
+    std::vector<std::vector<int64_t>> B(a.size() + 1, std::vector<int64_t>(b.size() + 1));
+
+    M[0][0] = 0;
+    for (int i = 1; i <= a.size(); i++) M[i][0] = INT32_MIN;
+    for (int j = 1; j <= b.size(); j++) M[0][j] = INT32_MIN;
+
+    A[0][1] = -opening_penalty;
+    for (int i = 0; i <= a.size(); i++) A[i][0] = INT32_MIN;
+    for (int j = 2; j <= b.size(); j++) A[0][j] = A[0][j - 1] - extending_penalty;
+
+    B[1][0] = -opening_penalty;
+    for (int i = 2; i <= a.size(); i++) B[i][0] = B[i - 1][0] - extending_penalty;
+    for (int j = 0; j <= b.size(); j++) B[0][j] = INT32_MIN;
+
+    for (int i = 1; i <= a.size(); i++) {
+        for (int j = 1; j <= b.size(); j++) {
+            M[i][j] =
+                    std::max(M[i - 1][j - 1], std::max(A[i - 1][j - 1], B[i - 1][j - 1])) + scoring[a[i - 1]][b[j - 1]];
+            A[i][j] = std::max(A[i][j - 1] - extending_penalty, std::max(M[i][j - 1], B[i][j - 1]) - opening_penalty);
+            B[i][j] = std::max(B[i - 1][j] - extending_penalty, std::max(M[i - 1][j], A[i - 1][j]) - opening_penalty);
+        }
+    }
+
+    int pi = a.size(), pj = b.size();
+    char matrix = 'U';
+    int max = std::max(M.back().back(), std::max(A.back().back(), B.back().back()));
+
+    if (M.back().back() == max) matrix = 'M';
+    if (A.back().back() == max) matrix = 'A';
+    if (B.back().back() == max) matrix = 'B';
+
+    std::string ra, rb;
+    while (pi || pj) {
+        switch (matrix) {
+            case 'M': {
+                int64_t prev = M[pi][pj] - scoring[a[pi - 1]][b[pj - 1]];
+                if (M[pi - 1][pj - 1] == prev) matrix = 'M';
+                if (A[pi - 1][pj - 1] == prev) matrix = 'A';
+                if (B[pi - 1][pj - 1] == prev) matrix = 'B';
+
+                ra.push_back(a[pi - 1]);
+                rb.push_back(b[pj - 1]);
+                pi--;
+                pj--;
+                break;
+            }
+            case 'A': {
+                if (M[pi][pj - 1] - opening_penalty == A[pi][pj]) matrix = 'M';
+                if (A[pi][pj - 1] - extending_penalty == A[pi][pj]) matrix = 'A';
+                if (B[pi][pj - 1] - opening_penalty == A[pi][pj]) matrix = 'B';
+
+                ra.push_back('-');
+                rb.push_back(b[pj - 1]);
+                pj--;
+                break;
+            }
+            case 'B': {
+                if (M[pi - 1][pj] - opening_penalty == B[pi][pj]) matrix = 'M';
+                if (A[pi - 1][pj] - opening_penalty == B[pi][pj]) matrix = 'A';
+                if (B[pi - 1][pj] - extending_penalty == B[pi][pj]) matrix = 'B';
+
+                ra.push_back(a[pi - 1]);
+                rb.push_back('-');
+                pi--;
+                break;
+            }
+        }
+    }
+
+    return {max, std::string(ra.rbegin(), ra.rend()), std::string(rb.rbegin(), rb.rend())};
 }

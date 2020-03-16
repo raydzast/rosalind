@@ -40,6 +40,14 @@ public:
     max_nonbranching_paths(const std::map<std::size_t, std::multiset<std::size_t>> &graph);
 
     static std::string longest_common_subsequence(const std::string &a, const std::string &b);
+
+    struct alignment {
+        int64_t val;
+        std::string a, b;
+    };
+
+    static alignment align_with_affine_gap(const std::string &a, const std::string &b, int opening_penalty,
+                          int extending_penalty, std::map<char, std::map<char, int>> scoring);
 };
 
 

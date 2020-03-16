@@ -1,5 +1,5 @@
-#ifndef ROSALIND_ASSEMBLY_SOLVER_H
-#define ROSALIND_ASSEMBLY_SOLVER_H
+#ifndef ASSEMBLY_SOLVER_H
+#define ASSEMBLY_SOLVER_H
 
 #include <map>
 #include <set>
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //ROSALIND_ASSEMBLY_SOLVER_H
+#endif //ASSEMBLY_SOLVER_H

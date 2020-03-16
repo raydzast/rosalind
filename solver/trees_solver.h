@@ -11,6 +11,14 @@
 class trees_solver : public virtual abstract_solver {
 public:
     void ba7a();
+
+    void ba7c();
+
+    void ba7d();
+
+    void ba7e();
+
+    void ba7f();
 };
 
 

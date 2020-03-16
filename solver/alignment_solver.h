@@ -1,5 +1,5 @@
-#ifndef ROSALIND_ALIGNMENT_SOLVER_H
-#define ROSALIND_ALIGNMENT_SOLVER_H
+#ifndef ALIGNMENT_SOLVER_H
+#define ALIGNMENT_SOLVER_H
 
 #include <algorithm>
 #include <string>
@@ -14,6 +14,10 @@ public:
     void ba5c();
 
     void ba5e();
+
+    void ba5j();
+
+    void ba5m();
 };
 
-#endif //ROSALIND_ALIGNMENT_SOLVER_H
+#endif //ALIGNMENT_SOLVER_H
