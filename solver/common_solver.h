@@ -9,7 +9,7 @@
 #include "trees_solver.h"
 
 
-class common_solver 
+class common_solver
         : public assembly_solver, public recombination_solver, public trees_solver, public alignment_solver {
 public:
     common_solver(std::istream &in, std::ostream &out);

@@ -3,7 +3,7 @@ project(rosalind)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(-DNAME=ba5c)
+add_definitions(-DNAME=ba5e)
 
 add_library(rosalind solver/rosalind.cpp)
 add_library(solver
@@ -18,3 +18,5 @@ add_executable(run main.cpp)
 
 target_link_libraries(solver PRIVATE rosalind)
 target_link_libraries(run PRIVATE solver)
+
+add_executable(parser parser.cpp)

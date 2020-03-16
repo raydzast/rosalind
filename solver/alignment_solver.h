@@ -12,6 +12,8 @@
 class alignment_solver : public virtual abstract_solver {
 public:
     void ba5c();
+
+    void ba5e();
 };
 
 #endif //ROSALIND_ALIGNMENT_SOLVER_H
