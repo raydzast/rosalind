@@ -52,3 +52,26 @@ void trees_solver::ba7a() {
         out << std::endl;
     }
 }
+
+void trees_solver::ba7c() {
+    std::size_t n;
+    in >> n;
+
+    std::vector<std::vector<int64_t>> matrix(n, std::vector<int64_t>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            in >> matrix[i][j];
+        }
+    }
+
+    auto result = rosalind::additive_phylogeny(matrix, n);
+
+    std::map<int, std::size_t> new_idx;
+    for (auto [u, edges] : result) {
+        for (auto [v, weight] : edges) {
+            if (new_idx.count(u) == 0) new_idx[u] = new_idx.size();
+            if (new_idx.count(v) == 0) new_idx[v] = new_idx.size();
+            out << new_idx[u] << "->" << new_idx[v] << ":" << weight << std::endl;
+        }
+    }
+}

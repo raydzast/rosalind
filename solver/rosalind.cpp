@@ -360,3 +360,121 @@ rosalind::align_with_affine_gap(const std::string &a, const std::string &b, cons
 
     return {max, std::string(ra.rbegin(), ra.rend()), std::string(rb.rbegin(), rb.rend())};
 }
+
+int64_t
+rosalind::limb_length(const std::vector<std::vector<int64_t> > &matrix, std::size_t idx, std::size_t matrix_size) {
+    int64_t result = INT32_MAX;
+
+    for (int i = 0; i < matrix_size; i++) {
+        for (int j = 0; j < matrix_size; j++) {
+            if (i == idx || j == idx) continue;
+            result = std::min(result, (matrix[i][idx] + matrix[idx][j] - matrix[i][j]) / 2);
+        }
+    }
+
+    return result;
+}
+
+bool reachable(const std::map<int, std::map<int, int64_t>> &graph, int from, int node, int prev) {
+    if (from == node) {
+        return true;
+    }
+
+    if (graph.count(from) == 0) {
+        return false;
+    }
+
+    for (auto [next, _] : graph.find(from)->second) {
+        if (next != prev && reachable(graph, next, node, from)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void add_node(std::map<int, std::map<int, int64_t>> &graph, std::pair<int, int> path, int x, int ux, int limb) {
+    auto [u, v] = path;
+    std::vector<int> vertices{u};
+
+    int prev = INT32_MIN;
+    int current = u;
+    int64_t path_weight = 0;
+
+    while (current != v) {
+        for (auto[next, weight] : graph[current]) {
+            if (next != prev && reachable(graph, next, v, current)) {
+                vertices.push_back(next);
+                prev = current;
+                current = next;
+                path_weight += weight;
+                break;
+            }
+        }
+    }
+
+    int64_t sum = 0;
+    for (int i = 1; i < vertices.size(); i++) {
+        int a = vertices[i - 1];
+        int b = vertices[i];
+        int64_t weight = graph[a][b];
+
+        if (sum + weight == ux - limb) {
+            graph[b][x] = limb;
+            graph[x][b] = limb;
+            break;
+        }
+
+        if (sum < ux - limb && ux - limb < sum + weight) {
+            graph[a].erase(b);
+            graph[b].erase(a);
+
+            int new_idx = std::min(0, graph.begin()->first) - 1;
+            graph[new_idx][x] = limb;
+            graph[x][new_idx] = limb;
+
+            graph[a][new_idx] = (ux - limb) - sum;
+            graph[new_idx][a] = (ux - limb) - sum;
+
+            graph[b][new_idx] = weight - ((ux - limb) - sum);
+            graph[new_idx][b] = weight - ((ux - limb) - sum);
+            break;
+        }
+
+        sum += weight;
+    }
+}
+
+std::map<int, std::map<int, int64_t>>
+rosalind::additive_phylogeny(const std::vector<std::vector<int64_t>> &matrix, std::size_t n) {
+    if (n == 2) {
+        return {
+                {0, {{1, matrix[0][1]}}},
+                {1, {{0, matrix[1][0]}}}
+        };
+    }
+
+    int64_t limb = limb_length(matrix, n - 1, n);
+    std::pair<int, int> match = {-1, -1};
+
+    for (int i = 0; i < n - 1; i++) {
+        bool found = false;
+
+        for (int j = 0; j < n - 1 && !found; j++) {
+            if (i == j) continue;
+
+            if (matrix[i][j] == matrix[i][n - 1] + matrix[n - 1][j] - 2*limb) {
+                match = {i, j};
+                found = true;
+            }
+        }
+
+        if (found) {
+            break;
+        }
+    }
+
+    auto result = additive_phylogeny(matrix, n - 1);
+    add_node(result, match, n - 1, matrix[match.first][n - 1], limb);
+    return result;
+}

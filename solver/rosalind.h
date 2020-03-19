@@ -47,7 +47,13 @@ public:
     };
 
     static alignment align_with_affine_gap(const std::string &a, const std::string &b, int opening_penalty,
-                          int extending_penalty, std::map<char, std::map<char, int>> scoring);
+                                           int extending_penalty, std::map<char, std::map<char, int>> scoring);
+
+    static int64_t
+    limb_length(const std::vector<std::vector<int64_t>> &matrix, std::size_t idx, std::size_t matrix_size);
+
+    static std::map<int, std::map<int, int64_t>>
+    additive_phylogeny(const std::vector<std::vector<int64_t>> &matrix, std::size_t n);
 };
 
 

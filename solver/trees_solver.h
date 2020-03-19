@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "abstract_solver.h"
+#include "rosalind.h"
 
 
 class trees_solver : public virtual abstract_solver {
