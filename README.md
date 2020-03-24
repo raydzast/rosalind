@@ -6,7 +6,7 @@
 
 ```shell-script
 mkdir -p cmake-build && cd cmake-build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug .. && make
+cmake -G "Unix Makefiles" .. && make
 ```
 
 ## Запуск
