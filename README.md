@@ -5,8 +5,7 @@
 В файле `CMakeFiles.txt` задается имя задачи для сборки. Имя задается как константа с именем `NAME` в строке [#6](https://github.com/lipoponi/rosalind/blob/master/CMakeLists.txt#L6)
 
 ```shell-script
-mkdir -p cmake-build
-cd cmake-build
+mkdir -p cmake-build && cd cmake-build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug .. && make
 ```
 
