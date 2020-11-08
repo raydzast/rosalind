@@ -1,16 +1,16 @@
-## О проекте
-Репозиторий содержит решения задач по бионформатике с ресурса [rosalind.info](http://rosalind.info/), выполненных в рамках учебной практики 4 семестра.
+## About
+This repository contains solutions to bioinformatics problems from [rosalind.info](http://rosalind.info/) that was done as part of the academic practice in 4th semester.
 
-## Сборка
-В файле `CMakeFiles.txt` задается имя задачи для сборки. Имя задается как константа с именем `NAME` в строке [#6](https://github.com/lipoponi/rosalind/blob/master/CMakeLists.txt#L6)
+## Build
+The name of problem to build lies in file `CMakeFiles.txt`. That name is defined as compile-time constant `NAME` on line [#6](https://github.com/lipoponi/rosalind/blob/master/CMakeLists.txt#L6)
 
 ```shell-script
 mkdir -p cmake-build && cd cmake-build
 cmake -G "Unix Makefiles" .. && make
 ```
 
-## Запуск
-Перед запуском необходимо поместить входные данные в папку `inputs`. Входной файл к задаче должен называться `%название-задачи%.txt`.
+## Run
+Before running it's required to put data into `inputs` folder. Input file for problem should be named as `%problem-name.txt%`.
 
 ```shell-script
 mkdir -p outputs
